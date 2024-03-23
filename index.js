@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const router = express.Router();
 
 dotenv.config();
 
@@ -19,9 +20,13 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch(err => console.log(err));
 
 // Routes
+router.get('/', ()=> {
+  return 'Welcome to Routine Planner API'
+});
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 // const studyPlanRoutes = require('./routes/studyPlanRoutes');
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);

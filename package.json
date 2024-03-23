@@ -1,7 +1,7 @@
 {
   "name": "routine-planner-api",
   "version": "1.0.0",
-  "description": "Routine Planner Feature",
+  "description": "Routine Planner Application#Routine Planner",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
