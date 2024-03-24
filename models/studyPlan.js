@@ -11,9 +11,9 @@ const studyPlanSchema = new Schema({
     type: Date,
     required: true
   },
-  class: {
+  classSession: {
     type: Schema.Types.ObjectId,
-    ref: 'Class',
+    ref: 'ClassSession',
     required: true
   },
   duration: {

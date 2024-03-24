@@ -21,11 +21,13 @@ mongoose.connect(process.env.MONGODB_URI)
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
-// const studyPlanRoutes = require('./routes/studyPlanRoutes');
+const classSessionRoutes = require('./routes/classSessionRoutes');
+const studyPlanRoutes = require('./routes/studyPlanRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-// app.use('/api/study-plans', studyPlanRoutes);
+app.use('/api/class-session', classSessionRoutes);
+app.use('/api/study-plans', studyPlanRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

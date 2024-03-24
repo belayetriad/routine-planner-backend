@@ -4,7 +4,8 @@
   "description": "Routine Planner Feature",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": " index.js",
+    "start:debug": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Belayet Hossen",
@@ -21,5 +22,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.3",
     "supertest": "^6.3.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }

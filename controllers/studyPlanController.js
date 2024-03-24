@@ -1,36 +1,51 @@
 const StudyPlan = require('../models/studyPlan');
 const generateSchedule = require('../utils/generateSchedule');
 const { validationResult } = require('express-validator');
-
+const ClassSession = require('../models/classSession');
 // **Create** a study plan
 exports.createStudyPlan = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
-  }
+  } 
 
-  const { classes, availableTime } = req.body;
-  const user = req.user;
-
+  const { classes, availableTime, date } = req.body;  
+  const classList = await ClassSession.find({ _id: { $in: classes } }).exec(); 
   try {
-    const schedule = generateSchedule(user, classes, availableTime);
+    const schedule = generateSchedule( classList, availableTime, date);
     const plans = await StudyPlan.create(schedule.map(s => ({
-      user: user._id,
+      user: req.userId,
       ...s
-    })));
+    }))); 
     res.json(plans);
-  } catch (err) {
-    console.error(err);
+  } catch (err) {  
     res.status(500).json({ message: 'Error creating study plan' });
   }
 };
 
 // **Read** all study plans for a user
 exports.getStudyPlans = async (req, res) => {
-  const user = req.user;
-
   try {
-    const plans = await StudyPlan.find({ user: user._id });
+    const dateString = req.query['date'];
+    const date = dateString ? new Date(dateString) : null;
+    
+     
+
+    const query = { user: req.userId };
+    if (date) {
+      // Set the start of the day
+      const startOfDay = new Date(date);
+      startOfDay.setHours(0, 0, 0, 0);
+
+      // Set the end of the day
+      const endOfDay = new Date(date);
+      endOfDay.setHours(23, 59, 59, 999);
+
+      // Include both start and end of the day in the query
+      query.date = { $gte: startOfDay, $lte: endOfDay };
+    }
+
+    const plans = await StudyPlan.find(query).populate('classSession').populate('user');
     res.json(plans);
   } catch (err) {
     console.error(err);
