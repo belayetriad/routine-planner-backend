@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 exports.register = async (req, res) => {
+  
   try {
     // Check if user exists
     let user = await User.findOne({ email: req.body.email });
@@ -17,7 +18,7 @@ exports.register = async (req, res) => {
     // Generate JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
-    res.json({ token });
+    res.json({ token, user });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
