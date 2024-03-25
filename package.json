@@ -4,7 +4,7 @@
   "description": "Routine Planner Application#Routine Planner",
   "main": "app.js",
   "scripts": {
-    "start": " app.js",
+    "start": "node app.js",
     "start:debug": "nodemon app.js",
     "test": "jest"
   },
