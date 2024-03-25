@@ -1,3 +1,4 @@
+const { isValidObjectId } = require('mongoose');
 const User = require('../models/user');
 
 const getAllUsers = async (req, res) => {
@@ -22,7 +23,11 @@ const me = async (req, res) => {
 };
 
 const getUserById = async (req, res) => {
+  if (!isValidObjectId(req.params.id)) {
+    return res.status(404).json({ message: 'Invalid user ID' });
+  }
   try {
+    console.log(req.params.id);
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.json(user);
